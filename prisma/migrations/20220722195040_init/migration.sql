@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "address" ALTER COLUMN "company_id" SET DEFAULT 999999999999999999;

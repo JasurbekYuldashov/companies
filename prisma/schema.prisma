@@ -11,7 +11,7 @@ datasource db {
 }
 
 model Company {
-  @@map( name : "company" )
+  @@map( name : "companyController" )
   id Int @default(autoincrement()) @id
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
