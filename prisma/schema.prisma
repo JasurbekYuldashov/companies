@@ -1,0 +1,72 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Company {
+  @@map( name : "company" )
+  id Int @default(autoincrement()) @id
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  name String?
+  type String?
+  status ComnpanyStatus?
+  address Address?
+  warehouse  Warehouse[]
+  employee  Employee[]
+}
+
+model Address {
+  @@map( name : "address" )
+  id Int @default(autoincrement()) @id
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  address String
+  company Company @relation(fields: [company_id],references: [id])
+  company_id Int @unique
+}
+
+model Warehouse {
+  @@map( name : "warehouse" )
+  id Int @default(autoincrement()) @id
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  status WarehouseStatus @default(active)
+  description String
+  title String
+  company Company @relation(fields: [company_id],references: [id])
+  company_id Int
+}
+
+model Employee {
+  @@map( name : "employee" )
+  id Int @default(autoincrement()) @id
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  status EmployeeStatus @default(active)
+  name String
+  company Company @relation(fields: [company_id],references: [id])
+  company_id Int
+}
+
+enum ComnpanyStatus {
+  active
+  inactive
+}
+
+enum WarehouseStatus {
+  active
+  inactive
+}
+
+enum EmployeeStatus {
+  active
+  block
+}
